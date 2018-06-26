@@ -49,6 +49,8 @@ RUN rm /tmp/nibabel-1.2.0.dev.tar.gz
 WORKDIR /opt/nibabel-1.2.0.dev/
 RUN python setup.py install
 
+WORKDIR /
+
 # Clear apt cache and other empty folders
 USER root
 RUN apt-get clean && \
