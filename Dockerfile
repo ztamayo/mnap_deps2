@@ -34,7 +34,8 @@ RUN apt-get update -qq && \
 #    wget --progress=bar:force -O /tmp/gradunwarp-1.0.3.tar.gz https://github.com/Washington-University/gradunwarp/archive/v1.0.3.tar.gz && \
 #    tar -xzvf /tmp/gradunwarp-1.0.3.tar.gz -C /opt && \
 #    rm /tmp/gradunwarp-1.0.3.tar.gz
-    git clone https://github.com/Washington-University/gradunwarp.git /opt/
+    cd /opt && \
+    git clone https://github.com/Washington-University/gradunwarp.git
 
 WORKDIR /opt/gradunwarp/
 
