@@ -14,16 +14,16 @@ FROM ztamayo/mnap_deps1:latest
 
 # Set PATH
 ENV PATH="/opt/workbench/bin_linux64" \
-    FREESURFER_HOME="/opt/freesurfer-5.3.0" \
-    PATH="/opt/freesurfer-5.3.0/bin:$PATH"
+    FREESURFER_HOME="/opt/freesurfer-5.3-HCP" \
+    PATH="/opt/freesurfer-5.3-HCP/bin:$PATH"
 RUN apt-get update -qq && \
     apt-get clean && \
     echo "Downloading FreeSurfer ..." && \
-    mkdir -p /opt/freesurfer-5.3.0/ && \
-# Install FreeSurfer 5.3.0
-    wget --progress=bar:force -O /tmp/freesurfer-Linux-centos6_x86_64-stable-pub-v5.3.0.tar.gz ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/5.3.0/freesurfer-Linux-centos6_x86_64-stable-pub-v5.3.0.tar.gz && \
-    tar -xzvf /tmp/freesurfer-Linux-centos6_x86_64-stable-pub-v5.3.0.tar.gz -C $FREESURFER_HOME --strip-components 1 && \
-    rm /tmp/freesurfer-Linux-centos6_x86_64-stable-pub-v5.3.0.tar.gz && \
+    mkdir -p /opt/freesurfer-5.3-HCP/ && \
+# Install FreeSurfer 5.3-HCP
+    wget --progress=bar:force -O /tmp/freesurfer-Linux-centos6_x86_64-stable-pub-v5.3.0-HCP.tar.gz ftp://ftp.nmr.mgh.harvard.edu/pub/dist/freesurfer/5.3.0-HCP/freesurfer-Linux-centos6_x86_64-stable-pub-v5.3.0-HCP.tar.gz && \
+    tar -xzvf /tmp/freesurfer-Linux-centos6_x86_64-stable-pub-v5.3.0-HCP.tar.gz -C $FREESURFER_HOME --strip-components 1 && \
+    rm /tmp/freesurfer-Linux-centos6_x86_64-stable-pub-v5.3.0-HCP.tar.gz && \
     rm -R ${FREESURFER_HOME}/trctrain/ && \
     echo "source $FREESURFER_HOME/SetUpFreeSurfer.sh" >> ~/.bashrc && \
 # Install PALM
@@ -53,7 +53,12 @@ RUN python setup.py install && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /boot /media /mnt /srv && \
     rm -rf ~/.cache/pip && \
+    cd /opt/workbench/libs_linux64 && \
+    mv libz.so.1 libz.so.1.old && \
+    ln -s /lib/x86_64-linux-gnu/libz.so.1 && \
     cd /
+
+ADD license.txt $FREESURFER_HOME
 
 CMD ["bash"]
 
